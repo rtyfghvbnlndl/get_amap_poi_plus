@@ -6,3 +6,4 @@
 ### 使用方法 
 1. 下载pagecopy.htm
 2. 用浏览器打开
+<img src="https://github.com/rtyfghvbnlndl/get_amap_poi_plus/blob/main/%E6%9C%AA%E6%A0%87%E9%A2%98-1.png"></img>
