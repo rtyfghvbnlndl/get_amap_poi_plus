@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>http</title>
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <a href="" id="note"></a>
+        <form></form>
+        <p>
+            key是必须的，<a href="https://lbs.amap.com/api/webservice/guide/create-project/get-key">获得key</a>。<br>
+            city和type建议填写adcode，<a href="https://lbs.amap.com/api/webservice/download">下载adcode表格</a>。<br>
+            city对应城市编码表，type对应POI分类编码。<br>
+            extensions可不填。<br>
+            搜索结果每页20条，first_page和last_page是要显示的页码。一般填写20和1即可。<br>
+
+        </p>
+        <button id="lock">search</button>
+        <div id="list"></div>
+        <div id="url"></div>
+
+        <a id="download"></a>
+        <script>
+
+            function download(){
+                var str = document.getElementById("result").innerHTML
+                var a=document.getElementById('download')
+                var file = new Blob([str],{'type':'application/csv'})
+                a.href = URL.createObjectURL(file)
+                a.download = 'download.csv'
+                a.dispatchEvent(new MouseEvent('click', {'bubbles': false, 'cancelable': true}))
+            }
+        </script>
+        <button onclick="download()">save</button>
+        <p>
+            <h3>
+                如何使用下载的.csv文件——解决乱码问题
+            </h3>
+            <ol>
+                <li>打开Excel</li>
+                <li>点击上面的数据</li>
+                <li>点击“从文本/csv”</li>
+            </ol>
+            
+        </p>
+        <div id="result"></div>
+        <script>
+            console.log("https://github.com/rtyfghvbnlndl")
+            console.log(
+`⠀⠀⣠⣤⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⡀⠀⠀⠀⠀⠀⢀⣤⣤
+⣴⠋⠀⠀⠀⠙⣷⠀⠀⣾⠀⠀⠀⠀⠀⣦⠀⠀⣠⠛⠀⢰⠀⠈⢷⠀⠀⠀⡿⠁⠀⠀⢀⣤
+⠀⠀⢀⣠⣶⠟⠉⠀⢸⠀⠀⠀⠀⠀⠀⠈⠀⠀⡿⠀⠀⢸⠀⠀⠀⡇⠀⢸⠀⠀⣠⣾⠋⠈⠿
+⣰⠿⠋⠁⠀⠀⣀⠀⠸⣆⠀⠀⠀⠀⠀⣼⠀⠀⣿⠀⠀⢸⠀⠀⣀⠇⠀⠸⣀⠘⠋⠀⠀⢀⣄
+⠳⣦⣤⣤⠞⠉⠀⠀⠉⠳⣤⣤⣴⠞⠁⠀⠀⠀⠛⠀⠘⠀⠀⠋⠀⠀⠀⠙⢶⣤⣤⣴⠛`)
+            var list1 = ['key','keywords','types','city','extensions','first_page','last_page']
+            var list2 = ['key','keywords','types','city','extensions']
+            var list3 = ['name','pname','cityname','adname','address','location','type','tel']
+            for(x of list1){
+                $('form').append(`${x}:<input type="text" name="${x}" id="${x}"><br>`)
+                $('#list').append(`<a id="${x}1"></a><br>`)
+            } 
+            $("#lock").click(
+                function(){
+                    var url = '';
+                    var a;
+                    for(x of list1){
+                        a = $(`#${x}`).val()
+                        $(`#${x}1`).html(a);     
+                    }
+                    console.log('https://github.com/rtyfghvbnlndl?tab=repositories')
+                    for(x of list2){
+                        a = $(`#${x}`).val()
+                        console.log(a)
+                        if(x =='key'&&a == ''){
+                            alert('没有key,无法搜索')
+                            var note =document.getElementById('note')
+                            note.innerHTML = '<h1>点击此处申请key</h1>'
+                            note.href = 'https://lbs.amap.com/api/webservice/guide/create-project/get-key'
+                        }
+                        if(x =='city'&&a == ''){a ='440300'}
+                        if(x =='keywords'&&a == ''){a ='1'}
+                        url += `${x}=${a}\&`
+                    }
+                    url = `http://restapi.amap.com/v3/place/text?${url}offset=20\&`
+                    document.getElementById('url').innerHTML = url
+
+
+                console.log(url)
+                var first_page = 1
+                first_page = Number(document.getElementById('first_page1').innerHTML)
+                var last_page = 1
+                last_page = Number(document.getElementById('last_page1').innerHTML)
+                
+                for(var i=first_page;i<last_page+1;i++){
+                    console.log("下载第"+i+"页")
+                    var url1 =`${url}page=${i}`
+                    console.log(url1)
+                    $.get(url1,function(data){
+                        j = JSON.parse(data);
+                        for(n=0;n<20;n++){
+                            for(l of list3){
+                                $('#result').append(`"${j.pois[n][l]}",`)
+                            }
+                            $('#result').append('\n')
+                        }
+
+                    },'html')
+                }
+
+            })
+
+        </script>
+        
+    </body>
+</html>
