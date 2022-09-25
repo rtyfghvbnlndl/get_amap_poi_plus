@@ -11,4 +11,6 @@
 1. 可以预览表格。
 2. 简单和详细描述切换
 3. 新增清空结果功能。
+<p>
 <img src="https://github.com/rtyfghvbnlndl/get_amap_poi_plus/blob/main/%E6%9C%AA%E6%A0%87%E9%A2%98-1.png"></img>
+</p>
